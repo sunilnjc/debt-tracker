@@ -76,6 +76,11 @@ exactly the plan's numbers —
 | Arun cleared | Feb-27 |
 | Credit card cleared / debt-free | **Mar-27** |
 
+> **Fee note (resolved during implementation):** the plan's tables omit the
+> 105 AED deferment fee; the engine charges it. So the engine's deferment
+> months are 105 lower: Feb-27 = **11,705**, Apr-27 = **23,205**. Everything
+> else, including the debt-free month, matches exactly.
+
 If these pass, the engine is correct. Everything after is plumbing and UI.
 
 ### Step 3 — Persistence + seed (BT-002, BT-003)

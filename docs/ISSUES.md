@@ -30,7 +30,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 ## Phase 1 — MVP issues (granular)
 
-### BT-001 · Scaffold monorepo — P0 · todo
+### BT-001 · Scaffold monorepo — P0 · **done**
 *Evening 1 · ~45 min*
 
 - [ ] 1. `mkdir server` → `npm init -y`; install `express cors dotenv mongoose`
@@ -47,7 +47,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** both dev servers run side by side; `/health` responds.
 
-### BT-004 · Projection engine: monthly net cash flow — P0 · todo
+### BT-004 · Projection engine: monthly net cash flow — P0 · **done**
 *Evening 1 · ~90 min · pure TypeScript, no Express/Mongo imports*
 
 - [ ] 1. `server/src/engine/types.ts`: plain interfaces — `RecurringItem`,
@@ -70,7 +70,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** the five eyeball numbers match the plan.
 
-### BT-005 · Projection engine: debt payoff waterfall — P0 · todo
+### BT-005 · Projection engine: debt payoff waterfall — P0 · **done**
 *Evening 2 · ~90 min*
 
 - [ ] 1. `server/src/engine/waterfall.ts`: `allocate(surplus, debtBalances)` —
@@ -89,7 +89,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** `dev-run.ts` prints Shruthi ✅ Oct-26 … debt-free **Mar-27**.
 
-### BT-006 · Engine acceptance tests — P0 · todo
+### BT-006 · Engine acceptance tests — P0 · **done**
 *Evening 2 · ~60 min*
 
 - [ ] 1. `server/src/engine/project.test.ts` — vitest, seed data as input
@@ -255,3 +255,6 @@ buffer (BT-005); this is a flag + UI treatment.
 
 - 2026-07-09 — Backlog created from SPEC v0.1. All Phase 1 issues opened.
 - 2026-07-09 — Phase 1 issues expanded to granular step checklists; 4-evening plan added; git repo initialized.
+- 2026-07-09 — Pushed to github.com/sunilnjc/debt-tracker (merged remote LICENSE).
+- 2026-07-09 — BT-001 done. Toolchain notes: machine Node 16 replaced with Homebrew Node 26 (old binary kept at /usr/local/bin/node16.bak); ts-node/nodemon swapped for tsx (ts-node is incompatible with TypeScript 7).
+- 2026-07-09 — BT-004, BT-005, BT-006 done. 38 tests green; engine reproduces the plan (debt-free 2027-03). Deliberate divergence: engine charges the 105 AED deferment fee the plan tables omit, so Feb-27 nets 11,705 (plan: 11,810) and Apr-27 nets 23,205 (plan: 23,310).
