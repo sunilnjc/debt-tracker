@@ -46,7 +46,7 @@ export function breakdownForMonth(
     else fixedCosts += amount;
   }
 
-  const defermentFees = -activeDeferments.reduce((sum, d) => sum + d.fee, 0);
+  const defermentFees = activeDeferments.reduce((sum, d) => sum - d.fee, 0);
 
   let oneTime = 0;
   let rentCheques = 0;
