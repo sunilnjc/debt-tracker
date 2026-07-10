@@ -21,6 +21,7 @@ import { ExpenseEntryForm } from './components/ExpenseEntryForm';
 import { BudgetVsActual } from './components/BudgetVsActual';
 import { SalaryScenario } from './components/SalaryScenario';
 import { DefermentPlanner } from './components/DefermentPlanner';
+import { SavingsTracker } from './components/SavingsTracker';
 import './App.css';
 
 export default function App() {
@@ -146,6 +147,7 @@ export default function App() {
         onAddDeferment={handleAddDeferment}
       />
       <ProjectionTable projection={projection} monthCloses={monthCloses} onCloseMonth={handleCloseMonth} />
+      <SavingsTracker />
     </main>
   );
 }

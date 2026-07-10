@@ -7,6 +7,7 @@ import type {
   MonthClose,
   Projection,
   RecurringItem,
+  SavingsForecast,
 } from './types';
 
 const BASE = '/api';
@@ -64,3 +65,5 @@ export const fetchDeferments = () => request<Deferment[]>('/deferments');
 
 export const createDeferment = (deferment: Deferment) =>
   request<Deferment>('/deferments', { method: 'POST', body: JSON.stringify(deferment) });
+
+export const fetchSavings = (months = 36) => request<SavingsForecast>(`/savings?months=${months}`);

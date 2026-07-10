@@ -106,3 +106,20 @@ export interface Deferment {
   fee: number;
   status: DefermentStatus;
 }
+
+export interface SavingsTarget {
+  id: string;
+  label: string;
+  amount: number;
+}
+
+export interface SavingsForecastEntry {
+  target: SavingsTarget;
+  achievedMonth: Month | null;
+}
+
+export interface SavingsForecast {
+  entries: SavingsForecastEntry[];
+  finalBuffer: number;
+  debtFreeMonth: Month | null;
+}
