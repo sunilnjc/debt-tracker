@@ -299,14 +299,14 @@ Full context: [PHASE3-LEVERS.md](PHASE3-LEVERS.md).
 
 | ID | Title | Priority | Status |
 |---|---|---|---|
-| BT-030 | Scenario mode: projection with overrides (no data mutation) | P2 | todo |
-| BT-031 | Web: salary-hike slider → live debt-free date | P2 | todo |
-| BT-032 | Debt payment logging + waterfall recompute from actuals | P2 | todo |
-| BT-033 | Deferment planner: toggle months, enforce 2/year non-consecutive rule | P2 | todo |
-| BT-034 | Debt-free progress bar (total paid / 53,500) | P2 | todo |
-| BT-035 | INR→AED rate refresh for Arun debt (manual or free API) | P2 | todo |
+| BT-030 | Scenario mode: projection with overrides (no data mutation) | P2 | done |
+| BT-031 | Web: salary-hike slider → live debt-free date | P2 | done |
+| BT-032 | Debt payment logging + waterfall recompute from actuals | P2 | done |
+| BT-033 | Deferment planner: toggle months, enforce 2/year non-consecutive rule | P2 | done |
+| BT-034 | Debt-free progress bar (total paid / 53,500) | P2 | done |
+| BT-035 | INR→AED rate refresh for Arun debt (manual or free API) | P2 | done |
 
-### BT-030 · Scenario mode — P2 · todo
+### BT-030 · Scenario mode — P2 · done
 
 - [ ] 1. `POST /api/projection/scenario` — body: `{ months, overrides: { recurringItems?: Record<id, Partial<RecurringItem>> } }`
 - [ ] 2. Route loads real stored data (same as `/api/projection`), applies
@@ -318,7 +318,7 @@ Full context: [PHASE3-LEVERS.md](PHASE3-LEVERS.md).
 **Done when:** the scenario endpoint's output changes with the override but
 the database is untouched.
 
-### BT-031 · Web: salary-hike slider — P2 · todo
+### BT-031 · Web: salary-hike slider — P2 · done
 
 - [ ] 1. `SalaryScenario` component: range slider (current salary → +15,000),
       debounced (~300ms) call to the scenario endpoint on drag
@@ -331,7 +331,7 @@ the database is untouched.
 **Done when:** dragging the slider updates the shown date live without ever
 calling the real (non-scenario) update endpoints.
 
-### BT-032 · Debt payment logging — P2 · todo
+### BT-032 · Debt payment logging — P2 · done
 
 - [ ] 1. `DebtPayment` model: `debtId`, `amount`, `date`, `note?`
 - [ ] 2. `POST /api/debts/:id/payments` — creates the payment record AND
@@ -346,7 +346,7 @@ calling the real (non-scenario) update endpoints.
 **Done when:** logging a payment updates both the balance and a visible
 history, and the projection recomputes from the new balance.
 
-### BT-033 · Deferment planner — P2 · todo
+### BT-033 · Deferment planner — P2 · done
 
 - [ ] 1. Server-side validation on `POST /api/deferments`: reject a 3rd
       deferment within a rolling 12-month window, or one landing in a month
@@ -362,7 +362,7 @@ history, and the projection recomputes from the new balance.
 **Done when:** the two known-bad cases are rejected with a clear message and a
 valid deferment still succeeds.
 
-### BT-034 · Debt-free progress bar — P2 · todo
+### BT-034 · Debt-free progress bar — P2 · done
 
 - [ ] 1. Client-side only: `(originalTotalAed - currentTotalAed) / originalTotalAed`
       across all debts, AED-normalized using each debt's `fxRate`
@@ -374,7 +374,7 @@ valid deferment still succeeds.
 **Done when:** the banner shows a single "X% paid off" bar matching manual
 arithmetic on the seed data.
 
-### BT-035 · INR rate refresh — P2 · todo
+### BT-035 · INR rate refresh — P2 · done
 
 - [ ] 1. Web: make Arun's `fxRate` editable inline (same `EditableAmount`
       pattern already used for balances)
@@ -415,3 +415,4 @@ touching `currentBalance` itself.
 - 2026-07-09 — Pushed to github.com/sunilnjc/debt-tracker (merged remote LICENSE).
 - 2026-07-09 — BT-001 done. Toolchain notes: machine Node 16 replaced with Homebrew Node 26 (old binary kept at /usr/local/bin/node16.bak); ts-node/nodemon swapped for tsx (ts-node is incompatible with TypeScript 7).
 - 2026-07-09 — BT-004, BT-005, BT-006 done. 38 tests green; engine reproduces the plan (debt-free 2027-03). Deliberate divergence: engine charges the 105 AED deferment fee the plan tables omit, so Feb-27 nets 11,705 (plan: 11,810) and Apr-27 nets 23,205 (plan: 23,310).
+- 2026-07-10 — Phase 3 (BT-030..BT-035) done: scenario projection endpoint (no DB writes), salary-hike slider, debt payment logging with history, deferment rule enforcement (non-consecutive + 2/year window), overall paid-off progress bar, editable INR FX rate. **Phase 3 complete.** 55 server tests + 43 web tests green; every feature verified live via curl and/or component tests (browser preview tool remained blocked by the same unrelated-session port issue).
