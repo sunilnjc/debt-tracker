@@ -7,6 +7,7 @@ dotenv.config();
 import { connectDb } from './db';
 import { DebtModel, DefermentModel, OneTimeEventModel, RecurringItemModel } from './models';
 import { crudRouter } from './routes/crud';
+import { debtPaymentsRouter } from './routes/debt-payments';
 import { expensesRouter } from './routes/expenses';
 import { monthCloseRouter } from './routes/month-close';
 import { projectionRouter } from './routes/projection';
@@ -22,6 +23,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/recurring-items', crudRouter(RecurringItemModel));
 app.use('/api/one-time-events', crudRouter(OneTimeEventModel));
 app.use('/api/debts', crudRouter(DebtModel));
+app.use('/api/debts/:id/payments', debtPaymentsRouter);
 app.use('/api/deferments', crudRouter(DefermentModel));
 app.use('/api/expenses', expensesRouter);
 app.use('/api/month-close', monthCloseRouter);

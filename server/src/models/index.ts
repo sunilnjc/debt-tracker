@@ -132,3 +132,33 @@ const monthCloseSchema = new Schema<WithMongoId<MonthClose>>(
 );
 
 export const MonthCloseModel = model('MonthClose', monthCloseSchema);
+
+/**
+ * A logged real payment against a debt. Distinct from just editing
+ * `Debt.currentBalance` (still available for corrections) — this keeps a
+ * history and decrements the balance atomically via the route handler.
+ */
+export interface DebtPayment {
+  id: string;
+  debtId: string;
+  amount: number;
+  /** YYYY-MM-DD */
+  date: string;
+  note?: string;
+}
+
+const debtPaymentSchema = new Schema<WithMongoId<DebtPayment>>(
+  {
+    debtId: { type: String, required: true },
+    amount: { type: Number, required: true, min: 0.01 },
+    date: {
+      type: String,
+      required: true,
+      validate: { validator: (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v), message: 'must be YYYY-MM-DD' },
+    },
+    note: String,
+  },
+  { versionKey: false },
+);
+
+export const DebtPaymentModel = model('DebtPayment', debtPaymentSchema);
