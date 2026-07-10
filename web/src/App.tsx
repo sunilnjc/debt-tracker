@@ -15,6 +15,7 @@ import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
 import { ExpenseEntryForm } from './components/ExpenseEntryForm';
 import { BudgetVsActual } from './components/BudgetVsActual';
+import { SalaryScenario } from './components/SalaryScenario';
 import './App.css';
 
 export default function App() {
@@ -91,6 +92,10 @@ export default function App() {
         summary={projection.summary}
         debtFreeMonth={projection.debtFreeMonth}
         onUpdateBalance={handleUpdateDebtBalance}
+      />
+      <SalaryScenario
+        currentSalary={recurringItems.find((item) => item.id === 'salary')?.amount ?? 0}
+        realDebtFreeMonth={projection.debtFreeMonth}
       />
       <RecurringItemsPanel items={recurringItems} onUpdateAmount={handleUpdateRecurringAmount} />
       <section className="expense-panel">

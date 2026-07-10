@@ -38,3 +38,10 @@ export const fetchMonthCloses = () => request<MonthClose[]>('/month-close');
 
 export const closeMonth = (month: string) =>
   request<MonthClose>('/month-close', { method: 'POST', body: JSON.stringify({ month }) });
+
+export interface ScenarioOverrides {
+  recurringItems?: Record<string, Partial<RecurringItem>>;
+}
+
+export const fetchScenarioProjection = (months: number, overrides: ScenarioOverrides) =>
+  request<Projection>('/projection/scenario', { method: 'POST', body: JSON.stringify({ months, overrides }) });
