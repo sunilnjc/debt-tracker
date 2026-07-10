@@ -26,7 +26,11 @@ const recurringItemSchema = new Schema<WithMongoId<RecurringItem>>(
     category: { type: String, enum: ['income', 'loan_emi', 'fixed_cost'], required: true },
     frequency: { type: String, enum: ['monthly'], default: 'monthly' },
     startMonth: { ...month, required: true },
-    endMonth: { ...month, default: null },
+    endMonth: {
+      type: String,
+      default: null,
+      validate: { validator: (v: string | null) => v === null || isValidMonth(v), message: 'must be YYYY-MM' },
+    },
     notes: String,
   },
   { versionKey: false },

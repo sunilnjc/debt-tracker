@@ -10,7 +10,8 @@
     "start": "node dist/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "engine:dev": "tsx src/engine/dev-run.ts"
+    "engine:dev": "tsx src/engine/dev-run.ts",
+    "seed": "tsx src/seed/run.ts"
   },
   "license": "MIT",
   "dependencies": {
