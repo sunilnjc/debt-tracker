@@ -1,0 +1,232 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #666;
+  --border: #ddd;
+  --rent-tint: #fde8e8;
+  --defer-tint: #e6f7ec;
+  --negative: #c0392b;
+  --accent: #2d6cdf;
+  --card-bg: #f8f9fb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --fg: #e8e8e8;
+    --muted: #9aa0a6;
+    --border: #333;
+    --rent-tint: #3a2323;
+    --defer-tint: #1f3327;
+    --negative: #ff6b5e;
+    --accent: #6ea1ff;
+    --card-bg: #1e2126;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.app {
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.app h1 {
+  margin-bottom: 1.5rem;
+}
+
+.app h2 {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.error {
+  color: var(--negative);
+}
+
+/* Debt dashboard */
+
+.debt-banner {
+  display: flex;
+  gap: 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.debt-banner .label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.debt-banner .value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.debt-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.debt-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  background: var(--card-bg);
+}
+
+.debt-card h3 {
+  margin: 0 0 0.25rem;
+}
+
+.debt-card .priority {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 0 0 0.5rem;
+}
+
+.balance-line {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.fx-note {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+.clear-month {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Recurring items */
+
+.recurring-panel {
+  margin-bottom: 2rem;
+}
+
+.recurring-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.recurring-panel li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background: var(--card-bg);
+}
+
+.item-name {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Editable amount */
+
+.editable-amount {
+  cursor: pointer;
+  border-bottom: 1px dashed var(--muted);
+}
+
+.editable-amount:hover {
+  border-bottom-color: var(--accent);
+}
+
+.editable-amount-editing input {
+  width: 6rem;
+  font: inherit;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+}
+
+.edit-error {
+  color: var(--negative);
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+
+/* Projection table */
+
+.projection-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.projection-table th,
+.projection-table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.6rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.projection-table th:first-child,
+.projection-table td:first-child {
+  text-align: left;
+}
+
+.projection-table th {
+  background: var(--card-bg);
+  font-weight: 600;
+}
+
+.row-rent {
+  background: var(--rent-tint);
+}
+
+.row-defer {
+  background: var(--defer-tint);
+}
+
+.negative {
+  color: var(--negative);
+}
+
+.cleared-badge {
+  font-weight: 600;
+}
