@@ -1,4 +1,4 @@
-import type { CategorySummary, Debt, Expense, Projection, RecurringItem } from './types';
+import type { CategorySummary, Debt, Expense, MonthClose, Projection, RecurringItem } from './types';
 
 const BASE = '/api';
 
@@ -33,3 +33,8 @@ export const createExpense = (expense: Omit<Expense, 'id'>) =>
 
 export const fetchBudgetVsActual = (month: string) =>
   request<CategorySummary[]>(`/expenses/summary?month=${month}`);
+
+export const fetchMonthCloses = () => request<MonthClose[]>('/month-close');
+
+export const closeMonth = (month: string) =>
+  request<MonthClose>('/month-close', { method: 'POST', body: JSON.stringify({ month }) });

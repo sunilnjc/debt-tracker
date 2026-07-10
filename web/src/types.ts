@@ -79,3 +79,10 @@ export interface CategorySummary {
   budgeted: number;
   actual: number;
 }
+
+export interface MonthClose {
+  id: string;
+  month: Month;
+  actualNetCashFlow: number;
+  closedAt: string;
+}

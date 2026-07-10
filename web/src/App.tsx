@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  closeMonth,
   createExpense,
   fetchDebts,
+  fetchMonthCloses,
   fetchProjection,
   fetchRecurringItems,
   updateDebt,
   updateRecurringItem,
 } from './api';
-import type { Debt, Expense, Projection, RecurringItem } from './types';
+import type { Debt, Expense, MonthClose, Projection, RecurringItem } from './types';
 import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
@@ -19,15 +21,22 @@ export default function App() {
   const [projection, setProjection] = useState<Projection | null>(null);
   const [debts, setDebts] = useState<Debt[]>([]);
   const [recurringItems, setRecurringItems] = useState<RecurringItem[]>([]);
+  const [monthCloses, setMonthCloses] = useState<MonthClose[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [expenseVersion, setExpenseVersion] = useState(0);
 
   const reload = useCallback(async () => {
     try {
-      const [p, d, r] = await Promise.all([fetchProjection(12), fetchDebts(), fetchRecurringItems()]);
+      const [p, d, r, c] = await Promise.all([
+        fetchProjection(12),
+        fetchDebts(),
+        fetchRecurringItems(),
+        fetchMonthCloses(),
+      ]);
       setProjection(p);
       setDebts(d);
       setRecurringItems(r);
+      setMonthCloses(c);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -51,6 +60,11 @@ export default function App() {
   const handleAddExpense = async (expense: Omit<Expense, 'id'>) => {
     await createExpense(expense);
     setExpenseVersion((v) => v + 1);
+  };
+
+  const handleCloseMonth = async (month: string) => {
+    await closeMonth(month);
+    await reload();
   };
 
   if (error) {
@@ -87,7 +101,7 @@ export default function App() {
         />
       </section>
       <BudgetVsActual refreshSignal={expenseVersion} />
-      <ProjectionTable projection={projection} />
+      <ProjectionTable projection={projection} monthCloses={monthCloses} onCloseMonth={handleCloseMonth} />
     </main>
   );
 }
