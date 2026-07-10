@@ -223,6 +223,25 @@ this round — working through BT-020 → BT-024 in order.
 | BT-022 | Budget vs. actual per category, per month | P2 | done |
 | BT-023 | Month close-out: lock actuals, show alongside projection | P2 | done |
 | BT-024 | PWA manifest + installable on phone home screen | P2 | done |
+| BT-025 | Web: expenses list with notes + delete (backfill) | P2 | done |
+
+### BT-025 · Expenses list with notes + delete — P2 · done
+
+Backfill: BT-021 added a note field with nowhere to display it, and nothing in
+the UI listed individual expenses (only category totals via BT-022). This adds
+the missing view. Backend already had `GET /api/expenses?month=` and
+`DELETE /api/expenses/:id` (crudRouter), so web-only.
+
+- [ ] 1. `deleteExpense(id)` API helper.
+- [ ] 2. `ExpenseList` component under the entry form: current month's expenses
+      (date, category, amount, note) with a delete button per row.
+- [ ] 3. Refetch on the shared expenseVersion signal; deleting bumps it too so
+      Budget vs. actual stays in sync.
+- [ ] 4. Component test (rendering incl. note, delete call).
+- [ ] 5. Commit.
+
+**Done when:** a logged expense — note included — appears in the list and can be
+deleted, with Budget vs. actual updating alongside.
 
 ### BT-020 · Expense model + API — P2 · done
 

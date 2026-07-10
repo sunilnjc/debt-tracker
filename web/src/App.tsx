@@ -18,6 +18,7 @@ import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
 import { ExpenseEntryForm } from './components/ExpenseEntryForm';
+import { ExpenseList } from './components/ExpenseList';
 import { BudgetVsActual } from './components/BudgetVsActual';
 import { SalaryScenario } from './components/SalaryScenario';
 import { DefermentPlanner } from './components/DefermentPlanner';
@@ -140,6 +141,11 @@ export default function App() {
         <ExpenseEntryForm
           fixedCostItems={recurringItems.filter((item) => item.category === 'fixed_cost')}
           onSubmit={handleAddExpense}
+        />
+        <ExpenseList
+          month={new Date().toISOString().slice(0, 7)}
+          refreshSignal={expenseVersion}
+          onChanged={() => setExpenseVersion((v) => v + 1)}
         />
       </section>
       <BudgetVsActual refreshSignal={expenseVersion} />

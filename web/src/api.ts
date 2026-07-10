@@ -42,6 +42,9 @@ export const fetchExpenses = (month: string) => request<Expense[]>(`/expenses?mo
 export const createExpense = (expense: Omit<Expense, 'id'>) =>
   request<Expense>('/expenses', { method: 'POST', body: JSON.stringify(expense) });
 
+export const deleteExpense = (id: string) =>
+  request<void>(`/expenses/${id}`, { method: 'DELETE' });
+
 export const fetchBudgetVsActual = (month: string) =>
   request<CategorySummary[]>(`/expenses/summary?month=${month}`);
 

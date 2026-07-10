@@ -369,6 +369,92 @@ body {
   cursor: default;
 }
 
+.expense-list {
+  margin-top: 1rem;
+}
+
+.expense-list-total {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.expense-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.expense-row {
+  display: grid;
+  grid-template-columns: 6.5rem 7rem 4rem 1fr auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  font-size: 0.9rem;
+}
+
+.expense-date {
+  color: var(--muted);
+}
+
+.expense-amount {
+  text-align: right;
+  font-weight: 600;
+}
+
+.expense-note {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.expense-delete {
+  font: inherit;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.expense-delete:hover:not(:disabled) {
+  color: var(--negative);
+}
+
+@media (max-width: 560px) {
+  .expense-row {
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas:
+      'note note delete'
+      'date category amount';
+  }
+  .expense-note {
+    grid-area: note;
+    white-space: normal;
+  }
+  .expense-date {
+    grid-area: date;
+  }
+  .expense-category {
+    grid-area: category;
+  }
+  .expense-amount {
+    grid-area: amount;
+  }
+  .expense-delete {
+    grid-area: delete;
+  }
+}
+
 /* Budget vs actual */
 
 .budget-vs-actual {
