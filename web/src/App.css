@@ -164,6 +164,48 @@ body {
   font-size: 0.9rem;
 }
 
+/* Expense entry */
+
+.expense-panel {
+  margin-bottom: 2rem;
+}
+
+.expense-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.expense-form input,
+.expense-form select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.expense-form input[type='text'][placeholder='Amount'] {
+  width: 6rem;
+}
+
+.expense-form button {
+  font: inherit;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.expense-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* Editable amount */
 
 .editable-amount {

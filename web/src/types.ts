@@ -64,3 +64,18 @@ export interface Debt {
   fxRate: number | null;
   notes?: string;
 }
+
+export interface Expense {
+  id: string;
+  amount: number;
+  category: string;
+  /** YYYY-MM-DD */
+  date: string;
+  note?: string;
+}
+
+export interface CategorySummary {
+  category: string;
+  budgeted: number;
+  actual: number;
+}

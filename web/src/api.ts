@@ -1,4 +1,4 @@
-import type { Debt, Projection, RecurringItem } from './types';
+import type { CategorySummary, Debt, Expense, Projection, RecurringItem } from './types';
 
 const BASE = '/api';
 
@@ -25,3 +25,11 @@ export const updateRecurringItem = (id: string, patch: Partial<RecurringItem>) =
 
 export const updateDebt = (id: string, patch: Partial<Debt>) =>
   request<Debt>(`/debts/${id}`, { method: 'PUT', body: JSON.stringify(patch) });
+
+export const fetchExpenses = (month: string) => request<Expense[]>(`/expenses?month=${month}`);
+
+export const createExpense = (expense: Omit<Expense, 'id'>) =>
+  request<Expense>('/expenses', { method: 'POST', body: JSON.stringify(expense) });
+
+export const fetchBudgetVsActual = (month: string) =>
+  request<CategorySummary[]>(`/expenses/summary?month=${month}`);

@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchDebts, fetchProjection, fetchRecurringItems, updateDebt, updateRecurringItem } from './api';
-import type { Debt, Projection, RecurringItem } from './types';
+import {
+  createExpense,
+  fetchDebts,
+  fetchProjection,
+  fetchRecurringItems,
+  updateDebt,
+  updateRecurringItem,
+} from './api';
+import type { Debt, Expense, Projection, RecurringItem } from './types';
 import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
+import { ExpenseEntryForm } from './components/ExpenseEntryForm';
 import './App.css';
 
 export default function App() {
@@ -38,6 +46,10 @@ export default function App() {
     await reload();
   };
 
+  const handleAddExpense = async (expense: Omit<Expense, 'id'>) => {
+    await createExpense(expense);
+  };
+
   if (error) {
     return (
       <main className="app">
@@ -64,6 +76,13 @@ export default function App() {
         onUpdateBalance={handleUpdateDebtBalance}
       />
       <RecurringItemsPanel items={recurringItems} onUpdateAmount={handleUpdateRecurringAmount} />
+      <section className="expense-panel">
+        <h2>Log an expense</h2>
+        <ExpenseEntryForm
+          fixedCostItems={recurringItems.filter((item) => item.category === 'fixed_cost')}
+          onSubmit={handleAddExpense}
+        />
+      </section>
       <ProjectionTable projection={projection} />
     </main>
   );
