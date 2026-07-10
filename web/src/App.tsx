@@ -22,6 +22,7 @@ import { BudgetVsActual } from './components/BudgetVsActual';
 import { SalaryScenario } from './components/SalaryScenario';
 import { DefermentPlanner } from './components/DefermentPlanner';
 import { SavingsTracker } from './components/SavingsTracker';
+import { SpendingTrends } from './components/SpendingTrends';
 import './App.css';
 
 export default function App() {
@@ -141,6 +142,7 @@ export default function App() {
         />
       </section>
       <BudgetVsActual refreshSignal={expenseVersion} />
+      <SpendingTrends />
       <DefermentPlanner
         deferments={deferments}
         loanItems={recurringItems.filter((item) => item.category === 'loan_emi')}

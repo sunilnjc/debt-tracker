@@ -123,3 +123,14 @@ export interface SavingsForecast {
   finalBuffer: number;
   debtFreeMonth: Month | null;
 }
+
+export interface CategoryTrend {
+  category: string;
+  totals: number[];
+  total: number;
+}
+
+export interface SpendingTrends {
+  months: Month[];
+  categories: CategoryTrend[];
+}

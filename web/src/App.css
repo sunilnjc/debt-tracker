@@ -395,6 +395,77 @@ body {
   color: var(--muted);
 }
 
+/* Spending trends */
+
+.spending-trends {
+  margin-bottom: 2rem;
+}
+
+.spending-trends h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.spending-trends input[type='month'] {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.trends-scroll {
+  overflow-x: auto;
+}
+
+.trends-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.trends-table th,
+.trends-table td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.trends-table th:first-child,
+.trends-table td:first-child {
+  text-align: left;
+}
+
+.trends-table th {
+  background: var(--card-bg);
+  font-weight: 600;
+}
+
+.trend-cell {
+  position: relative;
+}
+
+.trend-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.trend-value {
+  position: relative;
+}
+
+.trend-total {
+  font-weight: 600;
+}
+
 /* Deferment planner */
 
 .deferment-planner {

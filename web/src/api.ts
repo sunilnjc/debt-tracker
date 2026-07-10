@@ -8,6 +8,7 @@ import type {
   Projection,
   RecurringItem,
   SavingsForecast,
+  SpendingTrends,
 } from './types';
 
 const BASE = '/api';
@@ -67,3 +68,6 @@ export const createDeferment = (deferment: Deferment) =>
   request<Deferment>('/deferments', { method: 'POST', body: JSON.stringify(deferment) });
 
 export const fetchSavings = (months = 36) => request<SavingsForecast>(`/savings?months=${months}`);
+
+export const fetchSpendingTrends = (from: string, to: string) =>
+  request<SpendingTrends>(`/expenses/trends?from=${from}&to=${to}`);
