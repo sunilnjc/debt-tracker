@@ -9,6 +9,7 @@ import { DebtModel, OneTimeEventModel, RecurringItemModel } from './models';
 import { crudRouter } from './routes/crud';
 import { debtPaymentsRouter } from './routes/debt-payments';
 import { defermentsRouter } from './routes/deferments';
+import { exportRouter } from './routes/export';
 import { expensesRouter } from './routes/expenses';
 import { monthCloseRouter } from './routes/month-close';
 import { projectionRouter } from './routes/projection';
@@ -31,6 +32,7 @@ app.use('/api/expenses', expensesRouter);
 app.use('/api/month-close', monthCloseRouter);
 app.use('/api/projection', projectionRouter);
 app.use('/api/savings', savingsRouter);
+app.use('/api/export', exportRouter);
 
 const port = Number(process.env.PORT) || 4000;
 
