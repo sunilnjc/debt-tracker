@@ -339,6 +339,60 @@ body {
   color: var(--muted);
 }
 
+/* Deferment planner */
+
+.deferment-planner {
+  margin-bottom: 2rem;
+}
+
+.deferment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.deferment-list li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.deferment-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.deferment-form input,
+.deferment-form select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.deferment-form input[type='text'] {
+  width: 5rem;
+}
+
+.deferment-form button {
+  font: inherit;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.deferment-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* Editable amount */
 
 .editable-amount {

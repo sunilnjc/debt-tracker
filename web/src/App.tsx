@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   closeMonth,
+  createDeferment,
   createExpense,
   fetchDebtPayments,
   fetchDebts,
+  fetchDeferments,
   fetchMonthCloses,
   fetchProjection,
   fetchRecurringItems,
@@ -11,13 +13,14 @@ import {
   updateDebt,
   updateRecurringItem,
 } from './api';
-import type { Debt, DebtPaymentRecord, Expense, MonthClose, Projection, RecurringItem } from './types';
+import type { Debt, DebtPaymentRecord, Deferment, Expense, MonthClose, Projection, RecurringItem } from './types';
 import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
 import { ExpenseEntryForm } from './components/ExpenseEntryForm';
 import { BudgetVsActual } from './components/BudgetVsActual';
 import { SalaryScenario } from './components/SalaryScenario';
+import { DefermentPlanner } from './components/DefermentPlanner';
 import './App.css';
 
 export default function App() {
@@ -26,16 +29,18 @@ export default function App() {
   const [recurringItems, setRecurringItems] = useState<RecurringItem[]>([]);
   const [monthCloses, setMonthCloses] = useState<MonthClose[]>([]);
   const [paymentsByDebt, setPaymentsByDebt] = useState<Record<string, DebtPaymentRecord[]>>({});
+  const [deferments, setDeferments] = useState<Deferment[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [expenseVersion, setExpenseVersion] = useState(0);
 
   const reload = useCallback(async () => {
     try {
-      const [p, d, r, c] = await Promise.all([
+      const [p, d, r, c, f] = await Promise.all([
         fetchProjection(12),
         fetchDebts(),
         fetchRecurringItems(),
         fetchMonthCloses(),
+        fetchDeferments(),
       ]);
       const paymentLists = await Promise.all(d.map((debt) => fetchDebtPayments(debt.id)));
       const nextPaymentsByDebt: Record<string, DebtPaymentRecord[]> = {};
@@ -48,6 +53,7 @@ export default function App() {
       setRecurringItems(r);
       setMonthCloses(c);
       setPaymentsByDebt(nextPaymentsByDebt);
+      setDeferments(f);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -80,6 +86,11 @@ export default function App() {
 
   const handleLogPayment = async (debtId: string, amount: number, date: string) => {
     await logDebtPayment(debtId, { amount, date });
+    await reload();
+  };
+
+  const handleAddDeferment = async (deferment: Deferment) => {
+    await createDeferment(deferment);
     await reload();
   };
 
@@ -123,6 +134,11 @@ export default function App() {
         />
       </section>
       <BudgetVsActual refreshSignal={expenseVersion} />
+      <DefermentPlanner
+        deferments={deferments}
+        loanItems={recurringItems.filter((item) => item.category === 'loan_emi')}
+        onAddDeferment={handleAddDeferment}
+      />
       <ProjectionTable projection={projection} monthCloses={monthCloses} onCloseMonth={handleCloseMonth} />
     </main>
   );

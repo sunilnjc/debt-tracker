@@ -96,3 +96,13 @@ export interface DebtPaymentRecord {
   date: string;
   note?: string;
 }
+
+export type DefermentStatus = 'planned' | 'confirmed' | 'used';
+
+export interface Deferment {
+  id: string;
+  targetItemId: string;
+  month: Month;
+  fee: number;
+  status: DefermentStatus;
+}

@@ -1,4 +1,13 @@
-import type { CategorySummary, Debt, DebtPaymentRecord, Expense, MonthClose, Projection, RecurringItem } from './types';
+import type {
+  CategorySummary,
+  Debt,
+  DebtPaymentRecord,
+  Deferment,
+  Expense,
+  MonthClose,
+  Projection,
+  RecurringItem,
+} from './types';
 
 const BASE = '/api';
 
@@ -50,3 +59,8 @@ export const fetchDebtPayments = (debtId: string) => request<DebtPaymentRecord[]
 
 export const logDebtPayment = (debtId: string, payment: { amount: number; date: string; note?: string }) =>
   request<DebtPaymentRecord>(`/debts/${debtId}/payments`, { method: 'POST', body: JSON.stringify(payment) });
+
+export const fetchDeferments = () => request<Deferment[]>('/deferments');
+
+export const createDeferment = (deferment: Deferment) =>
+  request<Deferment>('/deferments', { method: 'POST', body: JSON.stringify(deferment) });
