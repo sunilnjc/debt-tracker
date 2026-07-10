@@ -213,13 +213,85 @@ buffer (BT-005); this is a flag + UI treatment.
 
 ## Phase 2 — Actuals
 
+Full context: [PHASE2-ACTUALS.md](PHASE2-ACTUALS.md). No fixed evening schedule
+this round — working through BT-020 → BT-024 in order.
+
 | ID | Title | Priority | Status |
 |---|---|---|---|
-| BT-020 | Expense model + `POST /api/expenses` | P2 | todo |
+| BT-020 | Expense model + API | P2 | todo |
 | BT-021 | Web: fast expense entry form (<5 s, mobile-first) | P2 | todo |
 | BT-022 | Budget vs. actual per category, per month | P2 | todo |
-| BT-023 | Month close-out: freeze actuals, projections roll forward | P2 | todo |
+| BT-023 | Month close-out: lock actuals, show alongside projection | P2 | todo |
 | BT-024 | PWA manifest + installable on phone home screen | P2 | todo |
+
+### BT-020 · Expense model + API — P2 · todo
+
+- [ ] 1. `server/src/models/expense.ts`: `amount` (positive number), `category`
+      (string), `date` (YYYY-MM-DD), `note` (optional) — reuse `isValidMonth`-style
+      validator pattern for the date
+- [ ] 2. Mount `crudRouter(ExpenseModel)` at `/api/expenses` (same generic router
+      as the four Phase 1 models — no new code needed there)
+- [ ] 3. `GET /api/expenses?month=YYYY-MM` filter (query by date prefix)
+- [ ] 4. curl smoke test: POST an expense, GET it back, DELETE it
+- [ ] 5. Commit: "expense model and API"
+
+**Done when:** curl round-trip (POST → GET → DELETE) works for `/api/expenses`.
+
+### BT-021 · Web: fast expense entry form — P2 · todo
+
+- [ ] 1. `ExpenseEntryForm` component: amount input, category `<select>`
+      (options = fixed-cost recurring items + "other"), date defaults to today,
+      optional note
+- [ ] 2. Submit → POST `/api/expenses` → clear form, keep focus on amount for
+      the next entry (the whole point is rapid consecutive logging)
+- [ ] 3. Basic validation: amount must be a positive number
+- [ ] 4. Component test: fill form, submit, assert POST payload and cleared state
+- [ ] 5. Commit: "fast expense entry form"
+
+**Done when:** logging an expense takes under 5 seconds, form → saved → ready
+for the next one.
+
+### BT-022 · Budget vs. actual per category, per month — P2 · todo
+
+- [ ] 1. `GET /api/expenses/summary?month=YYYY-MM` — group by category, sum
+      amounts, join against that month's budgeted fixed-cost RecurringItem
+      amounts (category = "other" has no budget row)
+- [ ] 2. Web: `BudgetVsActual` table — category, budgeted, actual, delta
+      (colored: over budget red, under budget green)
+- [ ] 3. Month picker (defaults to current month)
+- [ ] 4. Engine-side test: summary math matches a hand-built fixture month
+- [ ] 5. Commit: "budget vs actual view"
+
+**Done when:** the table matches manual arithmetic for a test month with a mix
+of over- and under-budget categories.
+
+### BT-023 · Month close-out — P2 · todo
+
+- [ ] 1. `MonthClose` model: `month`, `actualNetCashFlow`, `closedAt` — a
+      snapshot, not a mutation of the engine's projection
+- [ ] 2. `POST /api/month-close` — computes actual net cash flow from that
+      month's real expenses + logged debt payments + one-time events marked
+      `done`, stores the snapshot
+- [ ] 3. Web: projection table shows an "actual" column alongside "projected"
+      for any month with a close-out record
+- [ ] 4. Guard: closing an already-closed month is a no-op (idempotent), not an error
+- [ ] 5. Commit: "month close-out"
+
+**Done when:** closing a month locks its actual number and the projection
+table displays projected vs. actual side by side for that month.
+
+### BT-024 · PWA — P2 · todo
+
+- [ ] 1. `npm install -D vite-plugin-pwa` in `web/`
+- [ ] 2. `vite.config.ts`: add the plugin, `registerType: 'autoUpdate'`,
+      manifest (name "BudgetTracker", theme color, two icon sizes)
+- [ ] 3. Placeholder icons (simple generated PNG/SVG is fine — no need for
+      custom design)
+- [ ] 4. Verify: `npm run build` produces a manifest + service worker; Chrome
+      DevTools → Application tab shows it as installable
+- [ ] 5. Commit: "pwa manifest and install support"
+
+**Done when:** the built app can be added to a phone's home screen.
 
 ## Phase 3 — Levers
 
