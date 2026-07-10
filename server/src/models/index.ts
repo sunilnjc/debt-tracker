@@ -108,3 +108,27 @@ const expenseSchema = new Schema<WithMongoId<Expense>>(
 );
 
 export const ExpenseModel = model('Expense', expenseSchema);
+
+/**
+ * A locked snapshot of a month's actual net cash flow. `id` is the month
+ * itself, so "close a month" is naturally idempotent (find-or-create).
+ */
+export interface MonthClose {
+  id: string;
+  month: string;
+  actualNetCashFlow: number;
+  /** ISO timestamp */
+  closedAt: string;
+}
+
+const monthCloseSchema = new Schema<WithMongoId<MonthClose>>(
+  {
+    _id: { type: String, required: true },
+    month: { ...month, required: true },
+    actualNetCashFlow: { type: Number, required: true },
+    closedAt: { type: String, required: true },
+  },
+  { versionKey: false },
+);
+
+export const MonthCloseModel = model('MonthClose', monthCloseSchema);

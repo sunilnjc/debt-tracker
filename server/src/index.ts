@@ -8,6 +8,7 @@ import { connectDb } from './db';
 import { DebtModel, DefermentModel, OneTimeEventModel, RecurringItemModel } from './models';
 import { crudRouter } from './routes/crud';
 import { expensesRouter } from './routes/expenses';
+import { monthCloseRouter } from './routes/month-close';
 import { projectionRouter } from './routes/projection';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api/one-time-events', crudRouter(OneTimeEventModel));
 app.use('/api/debts', crudRouter(DebtModel));
 app.use('/api/deferments', crudRouter(DefermentModel));
 app.use('/api/expenses', expensesRouter);
+app.use('/api/month-close', monthCloseRouter);
 app.use('/api/projection', projectionRouter);
 
 const port = Number(process.env.PORT) || 4000;
