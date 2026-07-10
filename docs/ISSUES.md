@@ -391,11 +391,11 @@ Full context: [PHASE4-SAVINGS.md](PHASE4-SAVINGS.md).
 
 | ID | Title | Priority | Status |
 |---|---|---|---|
-| BT-040 | Savings stages tracker (5k → 15k → 24k → 72k) | P2 | todo |
-| BT-041 | Spending trends report (category over time) | P2 | todo |
-| BT-042 | Data export (JSON/CSV backup) | P2 | todo |
+| BT-040 | Savings stages tracker (5k → 15k → 24k → 72k) | P2 | done |
+| BT-041 | Spending trends report (category over time) | P2 | done |
+| BT-042 | Data export (JSON/CSV backup) | P2 | done |
 
-### BT-040 · Savings stages tracker — P2 · todo
+### BT-040 · Savings stages tracker — P2 · done
 
 - [ ] 1. `engine/savings.ts`: pure `forecastSavings(months, targets)` → first month
       each target's `buffer` is reached (or null), plus final projected buffer.
@@ -412,7 +412,7 @@ Full context: [PHASE4-SAVINGS.md](PHASE4-SAVINGS.md).
 **Done when:** the tracker shows a projected month per stage matching the plan's
 April-2027 windfall timing.
 
-### BT-041 · Spending trends report — P2 · todo
+### BT-041 · Spending trends report — P2 · done
 
 - [ ] 1. `engine/trends.ts`: pure `spendingTrends(expenses, months)` → per-category
       totals for each month in the range.
@@ -425,7 +425,7 @@ April-2027 windfall timing.
 
 **Done when:** the table matches manual sums for a fixture month range.
 
-### BT-042 · Data export — P2 · todo
+### BT-042 · Data export — P2 · done
 
 - [ ] 1. `GET /api/export` — JSON dump of all collections.
 - [ ] 2. `GET /api/export/expenses.csv` — expenses as CSV (Content-Type text/csv).
@@ -459,3 +459,4 @@ April-2027 windfall timing.
 - 2026-07-09 — BT-001 done. Toolchain notes: machine Node 16 replaced with Homebrew Node 26 (old binary kept at /usr/local/bin/node16.bak); ts-node/nodemon swapped for tsx (ts-node is incompatible with TypeScript 7).
 - 2026-07-09 — BT-004, BT-005, BT-006 done. 38 tests green; engine reproduces the plan (debt-free 2027-03). Deliberate divergence: engine charges the 105 AED deferment fee the plan tables omit, so Feb-27 nets 11,705 (plan: 11,810) and Apr-27 nets 23,205 (plan: 23,310).
 - 2026-07-10 — Phase 3 (BT-030..BT-035) done: scenario projection endpoint (no DB writes), salary-hike slider, debt payment logging with history, deferment rule enforcement (non-consecutive + 2/year window), overall paid-off progress bar, editable INR FX rate. **Phase 3 complete.** 55 server tests + 43 web tests green; every feature verified live via curl and/or component tests (browser preview tool remained blocked by the same unrelated-session port issue).
+- 2026-07-11 — Phase 4 (BT-040..BT-042) done: savings forecast (reads the projection's buffer trajectory; stages hit Apr/Jun/Dec-27 matching plan §8), spending trends (category×month grid), data export (JSON backup + expenses CSV). **Phase 4 complete — all four roadmap phases shipped.** 63 server tests + 51 web tests green; verified via curl and component tests. Refactored shared loadPlanInput/parseMonths into routes/plan-input.ts. Test note: a beforeEach(mockReset) triggered a spurious unhandled-rejection report on self-fetching components' error tests — dropped it since each test sets its own mock.
