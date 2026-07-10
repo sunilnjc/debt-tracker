@@ -12,7 +12,7 @@ export interface MonthBreakdown {
   net: number;
 }
 
-function isActive(item: RecurringItem, month: Month): boolean {
+export function isActive(item: RecurringItem, month: Month): boolean {
   return (
     compareMonths(item.startMonth, month) <= 0 &&
     (item.endMonth === null || compareMonths(month, item.endMonth) <= 0)
