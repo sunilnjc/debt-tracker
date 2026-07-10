@@ -23,6 +23,7 @@ import { SalaryScenario } from './components/SalaryScenario';
 import { DefermentPlanner } from './components/DefermentPlanner';
 import { SavingsTracker } from './components/SavingsTracker';
 import { SpendingTrends } from './components/SpendingTrends';
+import { DataExport } from './components/DataExport';
 import './App.css';
 
 export default function App() {
@@ -150,6 +151,7 @@ export default function App() {
       />
       <ProjectionTable projection={projection} monthCloses={monthCloses} onCloseMonth={handleCloseMonth} />
       <SavingsTracker />
+      <DataExport />
     </main>
   );
 }
