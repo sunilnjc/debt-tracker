@@ -9,6 +9,23 @@ const shruthi: Debt = {
   priority: 1, currency: 'AED', fxRate: null,
 };
 
+describe('DebtDashboard overall progress bar', () => {
+  it('shows the paid-off percentage across all debts', () => {
+    render(
+      <DebtDashboard
+        debts={[shruthi]}
+        summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
+        debtFreeMonth="2027-03"
+        onUpdateBalance={vi.fn()}
+        paymentsByDebt={{}}
+        onLogPayment={vi.fn()}
+      />,
+    );
+    // (20000 - 15892) / 20000 = 20.54% -> rounds to 21%
+    expect(screen.getByText('21% paid off')).toBeInTheDocument();
+  });
+});
+
 describe('DebtDashboard payment logging', () => {
   it('logs a payment via the form, calling onLogPayment with the debt id, amount, and date', async () => {
     const user = userEvent.setup();

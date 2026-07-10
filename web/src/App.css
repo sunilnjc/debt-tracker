@@ -79,6 +79,25 @@ body {
   font-weight: 700;
 }
 
+.overall-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.overall-progress-bar {
+  flex: 1;
+  height: 10px;
+}
+
+.overall-progress-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
 .debt-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

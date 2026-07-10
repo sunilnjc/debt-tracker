@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Debt, DebtPaymentRecord, ProjectionSummary } from '../types';
+import { overallPaidOffPercent } from '../debtMath';
 import { EditableAmount } from './EditableAmount';
 
 interface Props {
@@ -86,6 +87,7 @@ function DebtPaymentLog({
 
 export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance, paymentsByDebt, onLogPayment }: Props) {
   const sorted = [...debts].sort((a, b) => a.priority - b.priority);
+  const overallPct = overallPaidOffPercent(debts);
 
   return (
     <section className="debt-dashboard">
@@ -98,6 +100,12 @@ export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance, 
           <span className="label">Projected debt-free</span>
           <span className="value">{debtFreeMonth ?? 'beyond horizon'}</span>
         </div>
+      </div>
+      <div className="overall-progress">
+        <div className="progress-bar overall-progress-bar">
+          <div className="progress-fill" style={{ width: `${overallPct}%` }} />
+        </div>
+        <span className="overall-progress-label">{overallPct}% paid off</span>
       </div>
       <div className="debt-cards">
         {sorted.map((d) => {
