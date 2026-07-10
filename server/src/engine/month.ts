@@ -22,3 +22,10 @@ export function compareMonths(a: Month, b: Month): number {
 export function monthRange(start: Month, count: number): Month[] {
   return Array.from({ length: count }, (_, i) => addMonths(start, i));
 }
+
+/** Number of months from `from` to `to`. Positive means `to` is later. */
+export function monthsBetween(from: Month, to: Month): number {
+  const [fy, fm] = from.split('-');
+  const [ty, tm] = to.split('-');
+  return Number(ty) * 12 + Number(tm) - (Number(fy) * 12 + Number(fm));
+}

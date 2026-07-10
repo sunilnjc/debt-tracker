@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addMonths, compareMonths, isValidMonth, monthRange } from './month';
+import { addMonths, compareMonths, isValidMonth, monthRange, monthsBetween } from './month';
 
 describe('addMonths', () => {
   it('adds within a year', () => {
@@ -37,5 +37,19 @@ describe('isValidMonth', () => {
     expect(isValidMonth('2026-13')).toBe(false);
     expect(isValidMonth('2026-7')).toBe(false);
     expect(isValidMonth('26-07')).toBe(false);
+  });
+});
+
+describe('monthsBetween', () => {
+  it('is positive when `to` is later', () => {
+    expect(monthsBetween('2026-10', '2027-03')).toBe(5);
+  });
+
+  it('is negative when `to` is earlier', () => {
+    expect(monthsBetween('2027-03', '2026-10')).toBe(-5);
+  });
+
+  it('is zero for the same month', () => {
+    expect(monthsBetween('2026-07', '2026-07')).toBe(0);
   });
 });
