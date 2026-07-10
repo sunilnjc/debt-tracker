@@ -86,3 +86,13 @@ export interface MonthClose {
   actualNetCashFlow: number;
   closedAt: string;
 }
+
+/** A logged real payment against a debt — distinct from DebtPayment (a projected month's payment). */
+export interface DebtPaymentRecord {
+  id: string;
+  debtId: string;
+  amount: number;
+  /** YYYY-MM-DD */
+  date: string;
+  note?: string;
+}

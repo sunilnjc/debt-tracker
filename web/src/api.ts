@@ -1,4 +1,4 @@
-import type { CategorySummary, Debt, Expense, MonthClose, Projection, RecurringItem } from './types';
+import type { CategorySummary, Debt, DebtPaymentRecord, Expense, MonthClose, Projection, RecurringItem } from './types';
 
 const BASE = '/api';
 
@@ -45,3 +45,8 @@ export interface ScenarioOverrides {
 
 export const fetchScenarioProjection = (months: number, overrides: ScenarioOverrides) =>
   request<Projection>('/projection/scenario', { method: 'POST', body: JSON.stringify({ months, overrides }) });
+
+export const fetchDebtPayments = (debtId: string) => request<DebtPaymentRecord[]>(`/debts/${debtId}/payments`);
+
+export const logDebtPayment = (debtId: string, payment: { amount: number; date: string; note?: string }) =>
+  request<DebtPaymentRecord>(`/debts/${debtId}/payments`, { method: 'POST', body: JSON.stringify(payment) });

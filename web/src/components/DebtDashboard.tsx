@@ -1,4 +1,5 @@
-import type { Debt, ProjectionSummary } from '../types';
+import { useState } from 'react';
+import type { Debt, DebtPaymentRecord, ProjectionSummary } from '../types';
 import { EditableAmount } from './EditableAmount';
 
 interface Props {
@@ -6,9 +7,84 @@ interface Props {
   summary: ProjectionSummary;
   debtFreeMonth: string | null;
   onUpdateBalance: (id: string, next: number) => Promise<void>;
+  paymentsByDebt: Record<string, DebtPaymentRecord[]>;
+  onLogPayment: (debtId: string, amount: number, date: string) => Promise<void>;
 }
 
-export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance }: Props) {
+const today = () => new Date().toISOString().slice(0, 10);
+
+function DebtPaymentLog({
+  debtId,
+  payments,
+  onLogPayment,
+}: {
+  debtId: string;
+  payments: DebtPaymentRecord[];
+  onLogPayment: (debtId: string, amount: number, date: string) => Promise<void>;
+}) {
+  const [amount, setAmount] = useState('');
+  const [date, setDate] = useState(today());
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = Number(amount);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      setError('enter a positive amount');
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    try {
+      await onLogPayment(debtId, parsed, date);
+      setAmount('');
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="payment-log">
+      <form className="payment-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          inputMode="decimal"
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          aria-label={`Payment amount for ${debtId}`}
+        />
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          aria-label={`Payment date for ${debtId}`}
+        />
+        <button type="submit" disabled={saving}>
+          {saving ? 'Logging…' : 'Log payment'}
+        </button>
+      </form>
+      {error && <span className="edit-error">{error}</span>}
+      {payments.length > 0 && (
+        <ul className="payment-history">
+          {[...payments]
+            .slice(-3)
+            .reverse()
+            .map((p) => (
+              <li key={p.id}>
+                {p.date}: {p.amount.toLocaleString('en-US')}
+              </li>
+            ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance, paymentsByDebt, onLogPayment }: Props) {
   const sorted = [...debts].sort((a, b) => a.priority - b.priority);
 
   return (
@@ -46,6 +122,11 @@ export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance }
                 <div className="progress-fill" style={{ width: `${pct}%` }} />
               </div>
               <p className="clear-month">{clearMonth ? `Clears ${clearMonth}` : 'Beyond horizon'}</p>
+              <DebtPaymentLog
+                debtId={d.id}
+                payments={paymentsByDebt[d.id] ?? []}
+                onLogPayment={onLogPayment}
+              />
             </div>
           );
         })}

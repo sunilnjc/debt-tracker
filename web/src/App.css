@@ -134,6 +134,57 @@ body {
   margin: 0;
 }
 
+.payment-log {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.payment-form {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.payment-form input {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--fg);
+  width: 5rem;
+}
+
+.payment-form input[type='date'] {
+  width: 8rem;
+}
+
+.payment-form button {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border: none;
+  border-radius: 5px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.payment-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.payment-history {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 /* Salary scenario */
 
 .salary-scenario {

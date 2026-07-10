@@ -2,14 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   closeMonth,
   createExpense,
+  fetchDebtPayments,
   fetchDebts,
   fetchMonthCloses,
   fetchProjection,
   fetchRecurringItems,
+  logDebtPayment,
   updateDebt,
   updateRecurringItem,
 } from './api';
-import type { Debt, Expense, MonthClose, Projection, RecurringItem } from './types';
+import type { Debt, DebtPaymentRecord, Expense, MonthClose, Projection, RecurringItem } from './types';
 import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
@@ -23,6 +25,7 @@ export default function App() {
   const [debts, setDebts] = useState<Debt[]>([]);
   const [recurringItems, setRecurringItems] = useState<RecurringItem[]>([]);
   const [monthCloses, setMonthCloses] = useState<MonthClose[]>([]);
+  const [paymentsByDebt, setPaymentsByDebt] = useState<Record<string, DebtPaymentRecord[]>>({});
   const [error, setError] = useState<string | null>(null);
   const [expenseVersion, setExpenseVersion] = useState(0);
 
@@ -34,10 +37,17 @@ export default function App() {
         fetchRecurringItems(),
         fetchMonthCloses(),
       ]);
+      const paymentLists = await Promise.all(d.map((debt) => fetchDebtPayments(debt.id)));
+      const nextPaymentsByDebt: Record<string, DebtPaymentRecord[]> = {};
+      d.forEach((debt, i) => {
+        nextPaymentsByDebt[debt.id] = paymentLists[i];
+      });
+
       setProjection(p);
       setDebts(d);
       setRecurringItems(r);
       setMonthCloses(c);
+      setPaymentsByDebt(nextPaymentsByDebt);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -68,6 +78,11 @@ export default function App() {
     await reload();
   };
 
+  const handleLogPayment = async (debtId: string, amount: number, date: string) => {
+    await logDebtPayment(debtId, { amount, date });
+    await reload();
+  };
+
   if (error) {
     return (
       <main className="app">
@@ -92,6 +107,8 @@ export default function App() {
         summary={projection.summary}
         debtFreeMonth={projection.debtFreeMonth}
         onUpdateBalance={handleUpdateDebtBalance}
+        paymentsByDebt={paymentsByDebt}
+        onLogPayment={handleLogPayment}
       />
       <SalaryScenario
         currentSalary={recurringItems.find((item) => item.id === 'salary')?.amount ?? 0}
