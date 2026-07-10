@@ -206,6 +206,59 @@ body {
   cursor: default;
 }
 
+/* Budget vs actual */
+
+.budget-vs-actual {
+  margin-bottom: 2rem;
+}
+
+.budget-vs-actual h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.budget-vs-actual input[type='month'] {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.budget-table th,
+.budget-table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.6rem;
+  text-align: right;
+}
+
+.budget-table th:first-child,
+.budget-table td:first-child {
+  text-align: left;
+}
+
+.budget-table th {
+  background: var(--card-bg);
+  font-weight: 600;
+}
+
+.over-budget {
+  color: var(--negative);
+}
+
+.under-budget {
+  color: var(--muted);
+}
+
 /* Editable amount */
 
 .editable-amount {

@@ -12,6 +12,7 @@ import { ProjectionTable } from './components/ProjectionTable';
 import { DebtDashboard } from './components/DebtDashboard';
 import { RecurringItemsPanel } from './components/RecurringItemsPanel';
 import { ExpenseEntryForm } from './components/ExpenseEntryForm';
+import { BudgetVsActual } from './components/BudgetVsActual';
 import './App.css';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
   const [debts, setDebts] = useState<Debt[]>([]);
   const [recurringItems, setRecurringItems] = useState<RecurringItem[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [expenseVersion, setExpenseVersion] = useState(0);
 
   const reload = useCallback(async () => {
     try {
@@ -48,6 +50,7 @@ export default function App() {
 
   const handleAddExpense = async (expense: Omit<Expense, 'id'>) => {
     await createExpense(expense);
+    setExpenseVersion((v) => v + 1);
   };
 
   if (error) {
@@ -83,6 +86,7 @@ export default function App() {
           onSubmit={handleAddExpense}
         />
       </section>
+      <BudgetVsActual refreshSignal={expenseVersion} />
       <ProjectionTable projection={projection} />
     </main>
   );
