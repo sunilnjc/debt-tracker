@@ -295,6 +295,8 @@ table displays projected vs. actual side by side for that month.
 
 ## Phase 3 — Levers
 
+Full context: [PHASE3-LEVERS.md](PHASE3-LEVERS.md).
+
 | ID | Title | Priority | Status |
 |---|---|---|---|
 | BT-030 | Scenario mode: projection with overrides (no data mutation) | P2 | todo |
@@ -303,6 +305,85 @@ table displays projected vs. actual side by side for that month.
 | BT-033 | Deferment planner: toggle months, enforce 2/year non-consecutive rule | P2 | todo |
 | BT-034 | Debt-free progress bar (total paid / 53,500) | P2 | todo |
 | BT-035 | INR→AED rate refresh for Arun debt (manual or free API) | P2 | todo |
+
+### BT-030 · Scenario mode — P2 · todo
+
+- [ ] 1. `POST /api/projection/scenario` — body: `{ months, overrides: { recurringItems?: Record<id, Partial<RecurringItem>> } }`
+- [ ] 2. Route loads real stored data (same as `/api/projection`), applies
+      overrides in memory (shallow merge by id), calls `project()` — no writes
+- [ ] 3. curl smoke test: override salary to 40000, confirm debt-free shifts,
+      then confirm `GET /api/recurring-items` still shows the real 32000
+- [ ] 4. Commit: "scenario projection endpoint"
+
+**Done when:** the scenario endpoint's output changes with the override but
+the database is untouched.
+
+### BT-031 · Web: salary-hike slider — P2 · todo
+
+- [ ] 1. `SalaryScenario` component: range slider (current salary → +15,000),
+      debounced (~300ms) call to the scenario endpoint on drag
+- [ ] 2. Show resulting debt-free month + delta vs. the real projection
+      ("2 months earlier")
+- [ ] 3. Component test: mock the API, drag the slider, assert debounced call
+      and rendered delta
+- [ ] 4. Commit: "salary-hike scenario slider"
+
+**Done when:** dragging the slider updates the shown date live without ever
+calling the real (non-scenario) update endpoints.
+
+### BT-032 · Debt payment logging — P2 · todo
+
+- [ ] 1. `DebtPayment` model: `debtId`, `amount`, `date`, `note?`
+- [ ] 2. `POST /api/debts/:id/payments` — creates the payment record AND
+      decrements that debt's `currentBalance` (single transaction-like flow;
+      reject if amount exceeds the current balance)
+- [ ] 3. `GET /api/debts/:id/payments` — history for one debt
+- [ ] 4. Web: small "Log a payment" form + history list on each debt card
+- [ ] 5. curl smoke test: log a payment, confirm balance dropped and
+      projection's debt-free date reflects it
+- [ ] 6. Commit: "debt payment logging"
+
+**Done when:** logging a payment updates both the balance and a visible
+history, and the projection recomputes from the new balance.
+
+### BT-033 · Deferment planner — P2 · todo
+
+- [ ] 1. Server-side validation on `POST /api/deferments`: reject a 3rd
+      deferment within a rolling 12-month window, or one landing in a month
+      adjacent to an existing deferment, **for the same `targetItemId`** — 400
+      with a clear message
+- [ ] 2. Web: `DefermentPlanner` — list of existing deferments (target, month,
+      fee, status) + a small add form (loan item selector, month picker)
+- [ ] 3. Surface the server's rejection message inline on the form
+- [ ] 4. curl smoke test: 3rd deferment in a year rejected; adjacent-month
+      deferment rejected; a valid one accepted
+- [ ] 5. Commit: "deferment planner with rule enforcement"
+
+**Done when:** the two known-bad cases are rejected with a clear message and a
+valid deferment still succeeds.
+
+### BT-034 · Debt-free progress bar — P2 · todo
+
+- [ ] 1. Client-side only: `(originalTotalAed - currentTotalAed) / originalTotalAed`
+      across all debts, AED-normalized using each debt's `fxRate`
+- [ ] 2. Render as a single bar in the debt dashboard banner, alongside the
+      existing per-debt bars
+- [ ] 3. Component test: fixture debts, assert the computed percentage
+- [ ] 4. Commit: "overall debt-free progress bar"
+
+**Done when:** the banner shows a single "X% paid off" bar matching manual
+arithmetic on the seed data.
+
+### BT-035 · INR rate refresh — P2 · todo
+
+- [ ] 1. Web: make Arun's `fxRate` editable inline (same `EditableAmount`
+      pattern already used for balances)
+- [ ] 2. Saving triggers the existing debt PUT + reload, so the AED-converted
+      balance shown updates immediately
+- [ ] 3. Commit: "editable FX rate for INR debts"
+
+**Done when:** updating the rate changes the displayed AED equivalent without
+touching `currentBalance` itself.
 
 ## Phase 4 — Savings era
 
