@@ -387,11 +387,54 @@ touching `currentBalance` itself.
 
 ## Phase 4 — Savings era
 
+Full context: [PHASE4-SAVINGS.md](PHASE4-SAVINGS.md).
+
 | ID | Title | Priority | Status |
 |---|---|---|---|
 | BT-040 | Savings stages tracker (5k → 15k → 24k → 72k) | P2 | todo |
 | BT-041 | Spending trends report (category over time) | P2 | todo |
 | BT-042 | Data export (JSON/CSV backup) | P2 | todo |
+
+### BT-040 · Savings stages tracker — P2 · todo
+
+- [ ] 1. `engine/savings.ts`: pure `forecastSavings(months, targets)` → first month
+      each target's `buffer` is reached (or null), plus final projected buffer.
+      Default targets 5k/15k/24k/72k as a constant.
+- [ ] 2. `GET /api/savings?months=36` — run the projection over the horizon, return
+      the forecast (reuses loadPlanInput from the projection route).
+- [ ] 3. Engine test: fixture buffer trajectory → correct achievement months;
+      target beyond horizon → null.
+- [ ] 4. Web: `SavingsTracker` — one row per stage, projected achievement month +
+      progress bar (end-of-horizon buffer vs. target).
+- [ ] 5. Component test + curl smoke test.
+- [ ] 6. Commit.
+
+**Done when:** the tracker shows a projected month per stage matching the plan's
+April-2027 windfall timing.
+
+### BT-041 · Spending trends report — P2 · todo
+
+- [ ] 1. `engine/trends.ts`: pure `spendingTrends(expenses, months)` → per-category
+      totals for each month in the range.
+- [ ] 2. `GET /api/expenses/trends?from=YYYY-MM&to=YYYY-MM`.
+- [ ] 3. Engine test: fixture expenses → correct category×month grid.
+- [ ] 4. Web: `SpendingTrends` — table (category × month) with total column and an
+      inline bar per cell. No chart library.
+- [ ] 5. Component test + curl smoke test.
+- [ ] 6. Commit.
+
+**Done when:** the table matches manual sums for a fixture month range.
+
+### BT-042 · Data export — P2 · todo
+
+- [ ] 1. `GET /api/export` — JSON dump of all collections.
+- [ ] 2. `GET /api/export/expenses.csv` — expenses as CSV (Content-Type text/csv).
+- [ ] 3. Web: "Download backup" (JSON) + "Export expenses (CSV)" buttons that fetch
+      and trigger a browser download.
+- [ ] 4. curl smoke test for both endpoints.
+- [ ] 5. Commit.
+
+**Done when:** both downloads produce valid files containing the current data.
 
 ---
 
