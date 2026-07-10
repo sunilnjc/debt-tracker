@@ -105,7 +105,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** `npm test` green. **The engine is now provably your plan.**
 
-### BT-002 · Mongoose schemas — P0 · todo
+### BT-002 · Mongoose schemas — P0 · done
 *Evening 3 · ~45 min*
 
 - [ ] 1. `server/src/models/`: `RecurringItem`, `OneTimeEvent`, `Debt`, `Deferment` —
@@ -121,7 +121,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** server boots, connects, logs "db connected".
 
-### BT-003 · Seed script — P0 · todo
+### BT-003 · Seed script — P0 · done
 *Evening 3 · ~30 min*
 
 - [ ] 1. `server/src/seed/run.ts`: wipe the four collections, insert
@@ -132,7 +132,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** re-running seed twice leaves exactly one copy of everything.
 
-### BT-007 · Projection API — P0 · todo
+### BT-007 · Projection API — P0 · done
 *Evening 3 · ~30 min*
 
 - [ ] 1. `GET /api/projection?months=12` (default 12, max 36): load all four
@@ -142,7 +142,7 @@ Stretch (only if an evening finishes early): BT-014 (buffer warnings), then BT-0
 
 **Done when:** the API returns the same numbers the tests proved.
 
-### BT-008 · CRUD API — P0 · todo
+### BT-008 · CRUD API — P0 · done
 *Evening 3 · ~60 min*
 
 - [ ] 1. Generic pattern, four routers: `GET /api/<collection>`,
@@ -255,6 +255,8 @@ buffer (BT-005); this is a flag + UI treatment.
 
 - 2026-07-09 — Backlog created from SPEC v0.1. All Phase 1 issues opened.
 - 2026-07-09 — Phase 1 issues expanded to granular step checklists; 4-evening plan added; git repo initialized.
+- 2026-07-10 — Evening 1 (BT-001, BT-004) and Evening 2 (BT-005, BT-006) done: engine matches financial plan exactly, debt-free Mar-27.
+- 2026-07-10 — Evening 3 (BT-002, BT-003, BT-007, BT-008) done: mongoose schemas, seed script, projection endpoint, CRUD API — all verified against a local MongoDB.
 - 2026-07-09 — Pushed to github.com/sunilnjc/debt-tracker (merged remote LICENSE).
 - 2026-07-09 — BT-001 done. Toolchain notes: machine Node 16 replaced with Homebrew Node 26 (old binary kept at /usr/local/bin/node16.bak); ts-node/nodemon swapped for tsx (ts-node is incompatible with TypeScript 7).
 - 2026-07-09 — BT-004, BT-005, BT-006 done. 38 tests green; engine reproduces the plan (debt-free 2027-03). Deliberate divergence: engine charges the 105 AED deferment fee the plan tables omit, so Feb-27 nets 11,705 (plan: 11,810) and Apr-27 nets 23,205 (plan: 23,310).
