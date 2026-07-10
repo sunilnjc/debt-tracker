@@ -9,6 +9,53 @@ const shruthi: Debt = {
   priority: 1, currency: 'AED', fxRate: null,
 };
 
+const arun: Debt = {
+  id: 'arun', creditor: 'Arun', originalAmount: 300000, currentBalance: 300000,
+  priority: 4, currency: 'INR', fxRate: 22.2222,
+};
+
+describe('DebtDashboard FX rate editing', () => {
+  it('shows an editable FX rate for an INR debt', async () => {
+    const user = userEvent.setup();
+    const onUpdateFxRate = vi.fn().mockResolvedValue(undefined);
+    render(
+      <DebtDashboard
+        debts={[arun]}
+        summary={{ totalDebtAed: 13500, clearMonthByDebt: {} }}
+        debtFreeMonth="2027-03"
+        onUpdateBalance={vi.fn()}
+        onUpdateFxRate={onUpdateFxRate}
+        paymentsByDebt={{}}
+        onLogPayment={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByText('22.222'));
+    const input = screen
+      .getAllByRole('textbox')
+      .find((el) => (el as HTMLInputElement).value === '22.2222')!;
+    await user.clear(input);
+    await user.type(input, '23{Enter}');
+
+    expect(onUpdateFxRate).toHaveBeenCalledWith('arun', 23);
+  });
+
+  it('does not show an FX rate editor for AED debts', () => {
+    render(
+      <DebtDashboard
+        debts={[shruthi]}
+        summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
+        debtFreeMonth="2027-03"
+        onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
+        paymentsByDebt={{}}
+        onLogPayment={vi.fn()}
+      />,
+    );
+    expect(screen.queryByText('/INR')).not.toBeInTheDocument();
+  });
+});
+
 describe('DebtDashboard overall progress bar', () => {
   it('shows the paid-off percentage across all debts', () => {
     render(
@@ -17,6 +64,7 @@ describe('DebtDashboard overall progress bar', () => {
         summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
         debtFreeMonth="2027-03"
         onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
         paymentsByDebt={{}}
         onLogPayment={vi.fn()}
       />,
@@ -36,6 +84,7 @@ describe('DebtDashboard payment logging', () => {
         summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
         debtFreeMonth="2027-03"
         onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
         paymentsByDebt={{}}
         onLogPayment={onLogPayment}
       />,
@@ -56,6 +105,7 @@ describe('DebtDashboard payment logging', () => {
         summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
         debtFreeMonth="2027-03"
         onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
         paymentsByDebt={{}}
         onLogPayment={onLogPayment}
       />,
@@ -78,6 +128,7 @@ describe('DebtDashboard payment logging', () => {
         summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
         debtFreeMonth="2027-03"
         onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
         paymentsByDebt={{ shruthi: payments }}
         onLogPayment={vi.fn()}
       />,
@@ -96,6 +147,7 @@ describe('DebtDashboard payment logging', () => {
         summary={{ totalDebtAed: 15892, clearMonthByDebt: {} }}
         debtFreeMonth="2027-03"
         onUpdateBalance={vi.fn()}
+        onUpdateFxRate={vi.fn()}
         paymentsByDebt={{}}
         onLogPayment={onLogPayment}
       />,

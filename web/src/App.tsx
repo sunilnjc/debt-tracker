@@ -74,6 +74,11 @@ export default function App() {
     await reload();
   };
 
+  const handleUpdateFxRate = async (id: string, fxRate: number) => {
+    await updateDebt(id, { fxRate });
+    await reload();
+  };
+
   const handleAddExpense = async (expense: Omit<Expense, 'id'>) => {
     await createExpense(expense);
     setExpenseVersion((v) => v + 1);
@@ -118,6 +123,7 @@ export default function App() {
         summary={projection.summary}
         debtFreeMonth={projection.debtFreeMonth}
         onUpdateBalance={handleUpdateDebtBalance}
+        onUpdateFxRate={handleUpdateFxRate}
         paymentsByDebt={paymentsByDebt}
         onLogPayment={handleLogPayment}
       />

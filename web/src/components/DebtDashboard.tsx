@@ -8,6 +8,7 @@ interface Props {
   summary: ProjectionSummary;
   debtFreeMonth: string | null;
   onUpdateBalance: (id: string, next: number) => Promise<void>;
+  onUpdateFxRate: (id: string, next: number) => Promise<void>;
   paymentsByDebt: Record<string, DebtPaymentRecord[]>;
   onLogPayment: (debtId: string, amount: number, date: string) => Promise<void>;
 }
@@ -85,7 +86,15 @@ function DebtPaymentLog({
   );
 }
 
-export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance, paymentsByDebt, onLogPayment }: Props) {
+export function DebtDashboard({
+  debts,
+  summary,
+  debtFreeMonth,
+  onUpdateBalance,
+  onUpdateFxRate,
+  paymentsByDebt,
+  onLogPayment,
+}: Props) {
   const sorted = [...debts].sort((a, b) => a.priority - b.priority);
   const overallPct = overallPaidOffPercent(debts);
 
@@ -122,7 +131,9 @@ export function DebtDashboard({ debts, summary, debtFreeMonth, onUpdateBalance, 
                 {d.currency === 'INR' && d.fxRate && (
                   <span className="fx-note">
                     {' '}
-                    (~{Math.round(d.currentBalance / d.fxRate).toLocaleString('en-US')} AED)
+                    (~{Math.round(d.currentBalance / d.fxRate).toLocaleString('en-US')} AED @{' '}
+                    <EditableAmount value={d.fxRate} onSave={(next) => onUpdateFxRate(d.id, next)} />
+                    /INR)
                   </span>
                 )}
               </p>
