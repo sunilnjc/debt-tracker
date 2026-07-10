@@ -221,8 +221,8 @@ this round — working through BT-020 → BT-024 in order.
 | BT-020 | Expense model + API | P2 | done |
 | BT-021 | Web: fast expense entry form (<5 s, mobile-first) | P2 | done |
 | BT-022 | Budget vs. actual per category, per month | P2 | done |
-| BT-023 | Month close-out: lock actuals, show alongside projection | P2 | todo |
-| BT-024 | PWA manifest + installable on phone home screen | P2 | todo |
+| BT-023 | Month close-out: lock actuals, show alongside projection | P2 | done |
+| BT-024 | PWA manifest + installable on phone home screen | P2 | done |
 
 ### BT-020 · Expense model + API — P2 · done
 
@@ -265,7 +265,7 @@ for the next one.
 **Done when:** the table matches manual arithmetic for a test month with a mix
 of over- and under-budget categories.
 
-### BT-023 · Month close-out — P2 · todo
+### BT-023 · Month close-out — P2 · done
 
 - [ ] 1. `MonthClose` model: `month`, `actualNetCashFlow`, `closedAt` — a
       snapshot, not a mutation of the engine's projection
@@ -280,7 +280,7 @@ of over- and under-budget categories.
 **Done when:** closing a month locks its actual number and the projection
 table displays projected vs. actual side by side for that month.
 
-### BT-024 · PWA — P2 · todo
+### BT-024 · PWA — P2 · done
 
 - [ ] 1. `npm install -D vite-plugin-pwa` in `web/`
 - [ ] 2. `vite.config.ts`: add the plugin, `registerType: 'autoUpdate'`,
@@ -330,6 +330,7 @@ table displays projected vs. actual side by side for that month.
 - 2026-07-10 — Evening 1 (BT-001, BT-004) and Evening 2 (BT-005, BT-006) done: engine matches financial plan exactly, debt-free Mar-27.
 - 2026-07-10 — Evening 3 (BT-002, BT-003, BT-007, BT-008) done: mongoose schemas, seed script, projection endpoint, CRUD API — all verified against a local MongoDB.
 - 2026-07-10 — Evening 4 (BT-009, BT-010, BT-011) done: projection table, debt dashboard, inline editing. **Phase 1 MVP complete.** Verified via curl end-to-end (web dev server proxying to API) and an automated component test suite (browser preview tool was blocked by a stale port registration from an unrelated chat session).
+- 2026-07-10 — Phase 2 (BT-020..BT-024) done: expense model/API, fast entry form, budget-vs-actual view, month close-out (idempotent snapshot), PWA manifest. **Phase 2 complete.** All verified via vitest (server: 47 tests; web: 17 tests) plus curl/preview-build checks. Noted: live local DB's tithe value has drifted to -3,200 vs. the seed/plan's -3,000 — real edited data from earlier UI testing, left as-is pending Sunil's confirmation.
 - 2026-07-09 — Pushed to github.com/sunilnjc/debt-tracker (merged remote LICENSE).
 - 2026-07-09 — BT-001 done. Toolchain notes: machine Node 16 replaced with Homebrew Node 26 (old binary kept at /usr/local/bin/node16.bak); ts-node/nodemon swapped for tsx (ts-node is incompatible with TypeScript 7).
 - 2026-07-09 — BT-004, BT-005, BT-006 done. 38 tests green; engine reproduces the plan (debt-free 2027-03). Deliberate divergence: engine charges the 105 AED deferment fee the plan tables omit, so Feb-27 nets 11,705 (plan: 11,810) and Apr-27 nets 23,205 (plan: 23,310).

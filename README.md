@@ -5,7 +5,7 @@ user (Sunil), AED-first, designed around what generic budgeting apps get wrong:
 post-dated rent cheques, loan deferments, informal debts with priorities, and a
 debt payoff waterfall that recomputes when any number changes.
 
-**Status:** Phase 1 MVP complete — projection engine, API, and web UI all working locally.
+**Status:** Phase 1 (projection MVP) and Phase 2 (expense tracking) complete — all working locally.
 
 ## Documentation
 
@@ -13,6 +13,7 @@ debt payoff waterfall that recomputes when any number changes.
 |---|---|
 | [docs/SPEC.md](docs/SPEC.md) | Product spec: why, domain model, projection engine, architecture, roadmap |
 | [docs/PHASE1-MVP.md](docs/PHASE1-MVP.md) | Phase 1 scope, build order, acceptance criteria, definition of done |
+| [docs/PHASE2-ACTUALS.md](docs/PHASE2-ACTUALS.md) | Phase 2 scope: expense tracking, budget vs. actual, month close-out |
 | [docs/ISSUES.md](docs/ISSUES.md) | Issue backlog (BT-###) and open questions |
 | [docs/FINANCIAL-PLAN-2026.md](docs/FINANCIAL-PLAN-2026.md) | Source financial plan — the seed data and the acceptance-test truth |
 
