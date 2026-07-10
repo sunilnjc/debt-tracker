@@ -12,6 +12,7 @@ import { defermentsRouter } from './routes/deferments';
 import { expensesRouter } from './routes/expenses';
 import { monthCloseRouter } from './routes/month-close';
 import { projectionRouter } from './routes/projection';
+import { savingsRouter } from './routes/savings';
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use('/api/deferments', defermentsRouter);
 app.use('/api/expenses', expensesRouter);
 app.use('/api/month-close', monthCloseRouter);
 app.use('/api/projection', projectionRouter);
+app.use('/api/savings', savingsRouter);
 
 const port = Number(process.env.PORT) || 4000;
 

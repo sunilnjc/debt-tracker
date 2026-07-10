@@ -1,38 +1,9 @@
 import { Router } from 'express';
-import { DebtModel, DefermentModel, OneTimeEventModel, RecurringItemModel, toEngine } from '../models';
 import { project } from '../engine/project';
-import { PLAN_START } from '../engine/seed-data';
-import type { Debt, Deferment, OneTimeEvent, PlanInput, RecurringItem } from '../engine/types';
+import type { RecurringItem } from '../engine/types';
+import { MAX_HORIZON_MONTHS, earliestStartMonth, loadPlanInput, parseMonths } from './plan-input';
 
 export const projectionRouter = Router();
-
-const MAX_HORIZON_MONTHS = 36;
-const DEFAULT_HORIZON_MONTHS = 12;
-
-function parseMonths(value: unknown): number | null {
-  const n = Number(value ?? DEFAULT_HORIZON_MONTHS);
-  return Number.isInteger(n) && n >= 1 && n <= MAX_HORIZON_MONTHS ? n : null;
-}
-
-async function loadPlanInput(): Promise<PlanInput> {
-  const [recurringDocs, eventDocs, debtDocs, defermentDocs] = await Promise.all([
-    RecurringItemModel.find().lean(),
-    OneTimeEventModel.find().lean(),
-    DebtModel.find().lean(),
-    DefermentModel.find().lean(),
-  ]);
-
-  return {
-    recurringItems: recurringDocs.map((d) => toEngine<RecurringItem>(d as any)),
-    oneTimeEvents: eventDocs.map((d) => toEngine<OneTimeEvent>(d as any)),
-    debts: debtDocs.map((d) => toEngine<Debt>(d as any)),
-    deferments: defermentDocs.map((d) => toEngine<Deferment>(d as any)),
-  };
-}
-
-function earliestStartMonth(recurringItems: RecurringItem[]): string {
-  return recurringItems.map((i) => i.startMonth).sort()[0] ?? PLAN_START;
-}
 
 projectionRouter.get('/', async (req, res) => {
   const months = parseMonths(req.query.months);
