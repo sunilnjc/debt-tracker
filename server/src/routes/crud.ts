@@ -11,14 +11,12 @@ export function crudRouter<T extends { id: string }>(model: Model<any>): Router 
     res.json(docs.map((d) => toEngine<T>(d as any)));
   });
 
+  // If the caller supplies an id (Phase 1 models use stable ids like "salary"),
+  // it becomes _id. Otherwise Mongo assigns an ObjectId (e.g. Expense).
   router.post('/', async (req, res) => {
     try {
       const { id, ...rest } = req.body ?? {};
-      if (!id) {
-        res.status(400).json({ error: 'id is required' });
-        return;
-      }
-      const doc = await model.create({ _id: id, ...rest });
+      const doc = await model.create(id ? { _id: id, ...rest } : rest);
       res.status(201).json(toEngine<T>(doc.toObject() as any));
     } catch (err) {
       res.status(400).json({ error: (err as Error).message });

@@ -10,7 +10,7 @@ type WithMongoId<T extends { id: string }> = Omit<T, 'id'> & { _id: string };
 
 export function toEngine<T extends { id: string }>(doc: WithMongoId<T>): T {
   const { _id, ...rest } = doc;
-  return { id: _id, ...rest } as unknown as T;
+  return { id: String(_id), ...rest } as unknown as T;
 }
 
 const month = {
@@ -77,3 +77,34 @@ export const RecurringItemModel = model('RecurringItem', recurringItemSchema);
 export const OneTimeEventModel = model('OneTimeEvent', oneTimeEventSchema);
 export const DebtModel = model('Debt', debtSchema);
 export const DefermentModel = model('Deferment', defermentSchema);
+
+/**
+ * Actuals (Phase 2) — not part of the pure engine, so the type lives here
+ * rather than in engine/types.ts. `category` is a free string matching a
+ * fixed-cost RecurringItem id, or "other"; enforced by the UI's <select>,
+ * not the schema, to avoid a DB round-trip inside schema validation.
+ */
+export interface Expense {
+  id: string;
+  amount: number;
+  category: string;
+  /** YYYY-MM-DD */
+  date: string;
+  note?: string;
+}
+
+const expenseSchema = new Schema<WithMongoId<Expense>>(
+  {
+    amount: { type: Number, required: true, min: 0.01 },
+    category: { type: String, required: true },
+    date: {
+      type: String,
+      required: true,
+      validate: { validator: (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v), message: 'must be YYYY-MM-DD' },
+    },
+    note: String,
+  },
+  { versionKey: false },
+);
+
+export const ExpenseModel = model('Expense', expenseSchema);
