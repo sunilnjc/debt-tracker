@@ -218,13 +218,13 @@ this round — working through BT-020 → BT-024 in order.
 
 | ID | Title | Priority | Status |
 |---|---|---|---|
-| BT-020 | Expense model + API | P2 | todo |
-| BT-021 | Web: fast expense entry form (<5 s, mobile-first) | P2 | todo |
-| BT-022 | Budget vs. actual per category, per month | P2 | todo |
+| BT-020 | Expense model + API | P2 | done |
+| BT-021 | Web: fast expense entry form (<5 s, mobile-first) | P2 | done |
+| BT-022 | Budget vs. actual per category, per month | P2 | done |
 | BT-023 | Month close-out: lock actuals, show alongside projection | P2 | todo |
 | BT-024 | PWA manifest + installable on phone home screen | P2 | todo |
 
-### BT-020 · Expense model + API — P2 · todo
+### BT-020 · Expense model + API — P2 · done
 
 - [ ] 1. `server/src/models/expense.ts`: `amount` (positive number), `category`
       (string), `date` (YYYY-MM-DD), `note` (optional) — reuse `isValidMonth`-style
@@ -237,7 +237,7 @@ this round — working through BT-020 → BT-024 in order.
 
 **Done when:** curl round-trip (POST → GET → DELETE) works for `/api/expenses`.
 
-### BT-021 · Web: fast expense entry form — P2 · todo
+### BT-021 · Web: fast expense entry form — P2 · done
 
 - [ ] 1. `ExpenseEntryForm` component: amount input, category `<select>`
       (options = fixed-cost recurring items + "other"), date defaults to today,
@@ -251,7 +251,7 @@ this round — working through BT-020 → BT-024 in order.
 **Done when:** logging an expense takes under 5 seconds, form → saved → ready
 for the next one.
 
-### BT-022 · Budget vs. actual per category, per month — P2 · todo
+### BT-022 · Budget vs. actual per category, per month — P2 · done
 
 - [ ] 1. `GET /api/expenses/summary?month=YYYY-MM` — group by category, sum
       amounts, join against that month's budgeted fixed-cost RecurringItem
