@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { summarizeBudgetVsActual } from '../engine/budget';
-import { isValidMonth } from '../engine/month';
+import { compareMonths, isValidMonth } from '../engine/month';
+import { spendingTrends } from '../engine/trends';
 import type { RecurringItem } from '../engine/types';
 import { ExpenseModel, type Expense, RecurringItemModel, toEngine } from '../models';
 import { crudRouter } from './crud';
@@ -41,6 +42,25 @@ expensesRouter.get('/summary', async (req, res) => {
   const recurringItems = recurringDocs.map((d) => toEngine<RecurringItem>(d as any));
 
   res.json(summarizeBudgetVsActual(expenses, recurringItems, month));
+});
+
+// Per-category spending totals across a [from, to] month range.
+expensesRouter.get('/trends', async (req, res) => {
+  const from = req.query.from as string | undefined;
+  const to = req.query.to as string | undefined;
+  if (!from || !to || !isValidMonth(from) || !isValidMonth(to)) {
+    res.status(400).json({ error: 'from and to (YYYY-MM) are required' });
+    return;
+  }
+  if (compareMonths(from, to) > 0) {
+    res.status(400).json({ error: 'from must not be after to' });
+    return;
+  }
+
+  const docs = await ExpenseModel.find({ date: { $gte: `${from}-01`, $lt: `${to}-32` } }).lean();
+  const expenses = docs.map((d) => toEngine<Expense>(d as any));
+
+  res.json(spendingTrends(expenses, from, to));
 });
 
 expensesRouter.use('/', crudRouter<Expense>(ExpenseModel));
